@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>對外投資申報備查作業指引</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================
+       1. 色彩與變數設定 (Design Tokens)
+       ========================================== */
+    :root {
+      --bg-color: #FDFCF9;         /* 溫潤米白 */
+      --bg-card: #FFFFFF;          /* 純白卡片 */
+      --text-main: #363330;        /* 深木灰 */
+      --text-muted: #66605C;       /* 次要文字 */
+      --accent-color: #A3B5A3;     /* 霧感若竹綠 */
+      --accent-light: #F0F4F0;    /* 極淺綠底 */
+      --border-color: #E8E5DF;    /* 細緻分隔線 */
+      --shadow-soft: 0 4px 20px rgba(54, 51, 48, 0.04);
+      --font-body: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.85;
+      letter-spacing: 0.02em;
+      padding: 40px 20px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.05em;
+    }
+
+    /* ==========================================
+       切換頁籤 (Tabs)
+       ========================================== */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 10px 22px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 500;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background-color: var(--text-main);
+      color: var(--bg-color);
+      border-color: var(--text-main);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================
+       視覺流程圖 (Visual Flow Chart)
+       ========================================== */
+    .flow-chart {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-soft);
+      overflow-x: auto;
+    }
+
+    .flow-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 90px;
+      flex: 1;
+    }
+
+    .flow-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .flow-icon-box svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .flow-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .flow-arrow {
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      padding: 0 6px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================
+       時序軸 (Timeline) 佈局
+       ========================================== */
+    .timeline {
+      position: relative;
+    }
+
+    .timeline-step {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-step::before {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 50px;
+      bottom: -40px;
+      width: 1px;
+      background-color: var(--border-color);
+      z-index: 1;
+    }
+
+    .timeline-step:last-child::before {
+      display: none;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background-color: var(--bg-color);
+      border: 1px solid var(--text-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-right: 2rem;
+      flex-shrink: 0;
+      transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 2;
+    }
+
+    .timeline-step:hover .step-number {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #FFFFFF;
+      transform: scale(1.05);
+    }
+
+    .step-content {
+      flex-grow: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px 28px;
+      box-shadow: var(--shadow-soft);
+      transition: border-color 0.4s ease;
+    }
+
+    .timeline-step:hover .step-content {
+      border-color: rgba(163, 181, 163, 0.6);
+    }
+
+    .step-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .step-desc ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 8px;
+    }
+
+    .step-desc li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+    }
+
+    .step-desc li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+
+    /* 提醒標籤 */
+    .badge-info {
+      background-color: var(--accent-light);
+      border-left: 3px solid var(--accent-color);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 36px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .btn-cta {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--text-main);
+      border: 1px solid var(--text-main);
+      padding: 12px 36px;
+      border-radius: 40px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      background: transparent;
+      transition: all 0.4s ease;
+    }
+
+    .btn-cta:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #FFFFFF;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      box-shadow: var(--shadow-soft);
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 680px) {
+      body {
+        padding: 24px 16px 60px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .flow-chart {
+        justify-content: flex-start;
+      }
+
+      .timeline-step::before {
+        left: 18px;
+        top: 40px;
+      }
+
+      .step-number {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+        margin-right: 1rem;
+      }
+
+      .step-content {
+        padding: 18px;
+      }
+
+      .tab-nav {
+        gap: 8px;
+      }
+
+      .tab-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>對外投資申報備查作業指引</h1>
+    </header>
+
+    <!-- 頁籤導覽 -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-non-china-post', this)">一般對外投資（事後備查）</button>
+      <button class="tab-btn" onclick="switchTab('tab-non-china-pre', this)">一般對外投資（事前核准）</button>
+      <button class="tab-btn" onclick="switchTab('tab-china', this)">對中國大陸投資</button>
+    </nav>
+
+    <!-- TAB 1: 一般對外投資（事後備查：新臺幣 15 億元（含）以下） -->
+    <div id="tab-non-china-post" class="tab-panel active">
+      
+      <!-- 視覺流程圖 -->
+      <div class="flow-chart">
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="flow-label">確認條件</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="flow-label">6個月內辦理</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="flow-label">準備憑證</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="flow-label">線上申報</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="flow-label">核發備查函</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h2 class="step-title">確認適用條件與適用程序</h2>
+            <div class="step-desc">
+              對外投資金額門檻分為「超過新臺幣 15 億元」或「新臺幣 15 億元（含）以下」：
+              <ul>
+                <li><strong>新臺幣 15 億元（含）以下：</strong> 適用事後備查程序，得於實行投資後辦理申報。</li>
+                <li><strong>超過新臺幣 15 億元：</strong> 須申請事前核准。</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>金額以單次或累計投資總額計算。若投資涉及國家安全或敏感技術，不論金額大小皆可能需進行事前審核。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h2 class="step-title">辦理時限與流程</h2>
+            <div class="step-desc">
+              適用備查程序者，應於實際匯出資金、付清股款、交割股權或完成投資行為之日起 <strong>6 個月內</strong>，向經濟部投資審議司完成申報備查。
+            </div>
+            <div class="badge-info">
+              <span>請留意 6 個月期限起算日，逾期申報可能面臨相關法令罰則。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h2 class="step-title">準備申報相關證明文件</h2>
+            <div class="step-desc">
+              請備齊以下申報證明文件（影本須加蓋公司及負責人印章）：
+              <ul>
+                <li>對外投資申報備查申請書</li>
+                <li>匯款證明文件（如銀行結匯水單、匯款通知書或國外入帳證明）</li>
+                <li>投資實行證明（如國外公司設立/變更登記證明、股東名冊或出資證明）</li>
+                <li>國內投資人公司變更登記表影本</li>
+                <li>若透過第三地區間接投資，須檢附投資架構圖及第三地區公司登記文件</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>相關交易單據之金額與事業名稱需一致，以利主管機關查核。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h2 class="step-title">申報與遞件</h2>
+            <div class="step-desc">
+              登入「經濟部投資審議司線上申辦系統」，選擇「國外投資申報備查」項目，依序填寫投資人資料、受投資國外事業資訊及實際投資金額，並上傳相關證明文件電子檔完成線上遞件。
+            </div>
+            <div class="badge-info">
+              <span>完成線上送件後可取得收件號碼，方便追蹤後續審查進度。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <h2 class="step-title">審查與核發備查函</h2>
+            <div class="step-desc">
+              主管機關收件後進行審查（文件齊全者一般約需 1 至 2 週）。審核通過後，投審司將正式核發「國外投資備查核准函」。
+            </div>
+            <div class="badge-info">
+              <span>請妥善留存備查函，以供銀行外匯查核、財報揭露與會計簽證使用；後續每年需定期填報營運狀況。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 一般對外投資（事前核准：超過新臺幣 15 億元） -->
+    <div id="tab-non-china-pre" class="tab-panel">
+      
+      <!-- 視覺流程圖 -->
+      <div class="flow-chart">
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="flow-label">備妥計畫書</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="flow-label">線上申請</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="flow-label">主管機關審查</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="flow-label">取得核准函</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="flow-label">匯出與報備</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h2 class="step-title">確認適用條件與適用程序</h2>
+            <div class="step-desc">
+              單次或累計投資金額<strong>超過新臺幣 15 億元</strong>者，或涉及特定敏感技術與受管制行業，依法須於<strong>資金匯出或實行投資前</strong>向經濟部投資審議司申請事前核准。
+            </div>
+            <div class="badge-info">
+              <span>未經事前核准即逕行匯出資金或交割股權者，主管機關得依相關法令處以罰鍰。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h2 class="step-title">辦理時限與流程</h2>
+            <div class="step-desc">
+              事前申請需留足審查時間。取得投審司「核准函」後，方可憑函向外匯指定銀行辦理資金匯出與股權交割，並於投資實行後 <strong>6 個月內</strong> 向投審司辦理實行報備。
+            </div>
+            <div class="badge-info">
+              <span>核准函通常設有資金匯出期限，若無法於期限內完成匯款，應於期限屆滿前申請展延。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h2 class="step-title">準備申報相關證明文件</h2>
+            <div class="step-desc">
+              請備齊以下申請文件（影本須加蓋公司及負責人印章）：
+              <ul>
+                <li>國外投資申請書</li>
+                <li>詳細投資計畫書（含投資目的、效益分析、資金來源及營運規劃）</li>
+                <li>國內投資人公司變更登記表及董事會會議紀錄（或股東會決議）</li>
+                <li>受投資國外事業之背景資料與架構說明</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>大型投資案若涉及跨部會審查，主管機關可能要求補充相關產業效益或技術保護之補充說明。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h2 class="step-title">申報與遞件</h2>
+            <div class="step-desc">
+              登入「經濟部投資審議司線上申辦系統」，選擇「國外投資事前核准」項目，依序填寫投資架構、資金預算與計畫內容，並上傳完整申請書件進行線上遞送。
+            </div>
+            <div class="badge-info">
+              <span>完成送件後可線上查詢案件收件編號與當前審查階段。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <h2 class="step-title">審查與核發備查函（許可函）</h2>
+            <div class="step-desc">
+              投審司收件後進行會商或審議，審核通過後發給正式核准函。完成實際投資交割後，需再檢附匯款水單辦理實行報備結案。
+            </div>
+            <div class="badge-info">
+              <span>核准函為銀行放行跨境大額結匯之法定憑證，請務必妥善保存。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 對中國大陸投資 -->
+    <div id="tab-china" class="tab-panel">
+      
+      <!-- 視覺流程圖 -->
+      <div class="flow-chart">
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="flow-label">確認淨值上限</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="flow-label">申請事前許可</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="flow-label">取得許可函</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="flow-label">銀行結匯匯款</div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-node">
+          <div class="flow-icon-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="flow-label">實行後報備</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h2 class="step-title">確認適用條件與適用程序</h2>
+            <div class="step-desc">
+              對中國大陸投資依《兩岸條例》管理，採「原則事前許可，例外事後備查」：
+              <ul>
+                <li><strong>美金 50 萬元（含）以下：</strong> 得於投資實行後 6 個月內補辦備查。</li>
+                <li><strong>超過美金 50 萬元：</strong> 一律須先取得投審司許可函方得匯出資金。</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>大陸投資設有企業累積投資金額上限（一般企業不得超過淨值 60%）。除美金 50 萬元以下外，其餘一律需事先申請。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h2 class="step-title">辦理時限與流程</h2>
+            <div class="step-desc">
+              <ul>
+                <li><strong>事後備查：</strong> 應於投資實行後 <strong>6 個月內</strong> 向投審司申報備查。</li>
+                <li><strong>事前許可：</strong> 須先取得許可函，於許可期限內辦理結匯，並於資金匯出後 <strong>6 個月內</strong> 向投審司辦理實行報備。</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>未經事前許可逕行投資者，依兩岸條例可處新臺幣 5 萬元以上 2,500 萬元以下罰鍰。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h2 class="step-title">準備申報相關證明文件</h2>
+            <div class="step-desc">
+              依據申報類別備齊相關文件（影本加蓋公司及負責人印章）：
+              <ul>
+                <li>對大陸地區投資申請書 / 報備書</li>
+                <li>國內公司最新變更登記表及近一期財務報表（核算淨值上限）</li>
+                <li>結匯水單或匯款通知書（事後備查或實行報備用）</li>
+                <li>大陸受投資事業設立/變更證明文件及股權結構圖</li>
+              </ul>
+            </div>
+            <div class="badge-info">
+              <span>若涉及專案審查或關鍵技術項目，需另檢附詳細之投資計畫書。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h2 class="step-title">申報與遞件</h2>
+            <div class="step-desc">
+              透過「經濟部投資審議司線上申辦系統」，選擇對大陸投資相應項目，填寫投資基本資料並上傳經核章之佐證文件電子檔進行線上送件。
+            </div>
+            <div class="badge-info">
+              <span>送件後請留存系統收件編號，以便查詢跨部會審審進度。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <h2 class="step-title">審查與核發備查函</h2>
+            <div class="step-desc">
+              投審司會同相關機關審核通過後，將核發正式「對大陸地區投資許可函」或「備查函」。
+            </div>
+            <div class="badge-info">
+              <span>取得事前許可函後方可前往銀行辦理結匯；完成投資後應按時填報年度營運狀況。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA 區域 -->
+    <div class="cta-section">
+      <a href="https://www.moea.gov.tw/Mns/dir/home/Home.aspx" target="_blank" rel="noopener" class="btn-cta">前往經濟部投資審議司網站 ↗</a>
+    </div>
+
+    <footer></footer>
+  </div>
+
+  <a href="#" class="back-to-top" id="backToTop" title="返回頂端">↑</a>
+
+  <script>
+    function switchTab(tabId, btnElement) {
+      // 隱藏所有頁籤內容
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+
+      // 取消所有按鈕的 active 狀態
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // 顯示目標頁籤
+      const targetPanel = document.getElementById(tabId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+
+      // 設定觸發按鈕的高亮狀態
+      if (btnElement) {
+        btnElement.classList.add('active');
+      }
+    }
+
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
